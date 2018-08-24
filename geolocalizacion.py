@@ -23,13 +23,13 @@ import time
 
 
 f = open('algo.csv','r')
-geo = pd.read_csv(f)
+data = pd.read_csv(f)
 
 
 # In[5]:
 
 
-def obtener_coordenadas2(direccion):
+def coordenadas(direccion):
     time.sleep(1)
     params = {
         'address': direccion,
@@ -42,31 +42,26 @@ def obtener_coordenadas2(direccion):
     result = res['results'][0]
 
     
-    geodata = dict()
-    geodata['lat'] = result['geometry']['location']['lat']
-    geodata['lng'] = result['geometry']['location']['lng']
-    geodata['address'] = result['formatted_address']
+    dirrecion = dict()
+    dirrecion['lat'] = result['geometry']['location']['lat']
+    dirrecion['lng'] = result['geometry']['location']['lng']
+    dirrecion['address'] = result['formatted_address']
     
-    return {
-        'latitud': geodata['lat'],
-        'longitud':  geodata['lng'],
-        'direccion': geodata['address'] 
-    }
-    
+    return dirrecion
 
 
 # In[6]:
 
 
-geo['completo']=geo['Direcciones']+","+geo['comuna']+","+geo['pais']
+data['completo']=data['Direcciones']+","+data['comuna']+","+data['pais']
 
 
 # In[7]:
 
 
 stack_a=[]
-for x in geo['completo']:
-    stack_a.append(obtener_coordenadas2(x))
+for x in data['completo']:
+    stack_a.append(coordenadas(x))
     
 
     
@@ -78,25 +73,33 @@ for x in geo['completo']:
 stack_la=[]
 stack_lo=[]
 for x in stack_a:
-    stack_la.append(x['latitud'])
-    stack_lo.append(x['longitud'])
+    stack_la.append(x['lat'])
+    stack_lo.append(x['lng'])
 
 
 # In[9]:
 
 
-geo['lat']=stack_la
-geo['log']=stack_lo
+data['lat']=stack_la
+data['log']=stack_lo
 
 
 # In[10]:
 
 
-geo.drop('completo', axis=1, inplace=True)
+data.drop('completo', axis=1, inplace=True)
 
 
 # In[11]:
 
 
-geo.to_csv('final.csv', encoding='utf-8', index=False)
+data.to_csv('final.csv', encoding='utf-8', index=False)
+
+
+# In[12]:
+
+
+#para exportar datos
+f2 = open('final.csv','r')
+final = pd.read_csv(f2)
 
