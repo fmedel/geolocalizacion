@@ -29,12 +29,6 @@ geo = pd.read_csv(f)
 # In[5]:
 
 
-geo
-
-
-# In[6]:
-
-
 def obtener_coordenadas2(direccion):
     time.sleep(1)
     params = {
@@ -61,13 +55,13 @@ def obtener_coordenadas2(direccion):
     
 
 
-# In[7]:
+# In[6]:
 
 
 geo['completo']=geo['Direcciones']+","+geo['comuna']+","+geo['pais']
 
 
-# In[8]:
+# In[7]:
 
 
 stack_a=[]
@@ -78,7 +72,7 @@ for x in geo['completo']:
     
 
 
-# In[9]:
+# In[8]:
 
 
 stack_la=[]
@@ -88,36 +82,21 @@ for x in stack_a:
     stack_lo.append(x['longitud'])
 
 
-# In[10]:
+# In[9]:
 
 
 geo['lat']=stack_la
 geo['log']=stack_lo
 
 
-# In[11]:
+# In[10]:
 
 
 geo.drop('completo', axis=1, inplace=True)
 
 
-# In[12]:
-
-
-geo
-
-
-# In[13]:
+# In[11]:
 
 
 geo.to_csv('final.csv', encoding='utf-8', index=False)
-
-
-# In[14]:
-
-
-#para exportar datos
-f2 = open('final.csv','r')
-geo2 = pd.read_csv(f2)
-geo2
 
